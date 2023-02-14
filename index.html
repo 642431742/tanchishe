@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .map {
+      width: 1000px;
+      height: 600px;
+      border: 5px solid #333;
+      margin: 50px auto;
+      position: relative;
+
+      background-image: url(./imgs/bg.png);
+      background-repeat: repeat;
+      background-size: 20px 20px;
+    }
+
+    .map>div {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+    }
+
+    .map>.food {
+      background-image: url(./imgs/food.png);
+    }
+
+    .map>.head {
+      background-image: url(./imgs/head.png);
+    }
+
+    .map>.body {
+      background-image: url(./imgs/body.png);
+    }
+  </style>
+
+</head>
+
+<body>
+
+
+  <button>开始</button>
+  <button>暂停</button>
+  <button>重新开始</button>
+
+  <div class="map" id="map">
+
+
+  </div>
+
+
+
+  <script type="module">
+    import Game from './game.js';
+    const game = new Game('#map');
+    //获取三个按钮 绑定点击事件
+
+    const startBtn = document.querySelector('button:nth-child(1)');
+    startBtn.onclick = function () {
+      game.Init();
+    }
+
+    const pauseBtn = document.querySelector('button:nth-child(2)');
+    pauseBtn.onclick = function () {
+      game.Pause();
+    }
+
+
+    const restartBtn = document.querySelector('button:nth-child(3)');
+    restartBtn.onclick = function () {
+      game.Restart();
+    }
+
+
+    document.addEventListener('keydown', e => {
+      console.log(e.keyCode);//
+      // 37 左 38 上 39 右 40 下
+      switch (e.keyCode) {
+        case 37:
+        case 65:
+          game.ChangeDir('left');
+          break;
+        case 38:
+        case 87:
+          game.ChangeDir('top');;
+          break;
+        case 39:
+        case 68:
+          game.ChangeDir('right');;
+          break;
+        case 40:
+        case 83:
+          game.ChangeDir('bottom');;
+          break;
+      }
+    });
+
+  </script>
+
+  <script>
+    /*
+      贪吃蛇
+        + 网页游戏, 一定要分工明确
+
+      食物 类
+        => 负责生成一个食物
+        => 随机出现在 地图上的某一个位置
+        => 当游戏规则通知我换位置的时候我就换个位置
+
+      蛇 类
+        => 负责生成一个蛇
+        => 负责走一步, 游戏规则决定每间隔多少时间走一步
+        => 判断我的蛇头是否和食物重叠
+        => 判断我的蛇头是否出界
+
+      游戏规则 类
+        => 通知 食物类 创建一个食物实例在地图上
+        => 通知 蛇类 创建一个蛇在地图上
+
+        => 开始游戏: 通知蛇类, 每间隔多少时间走一步
+        => 暂停游戏: 暂停通知蛇类
+        => 重新开始: 重新走一遍初始化
+        => 接受用户的按键信息, 通知蛇类调整方向
+    */
+  </script>
+</body>
+
+</html>
